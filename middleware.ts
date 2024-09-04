@@ -38,7 +38,7 @@ export default function middleware(request: NextRequest) {
 
   const reqHeaders = new Headers(request.headers);
 
-  console.log("middleware reqHeaders", reqHeaders);
+  // console.log("middleware reqHeaders", reqHeaders);
 
   // const urlSearchParams = new URLSearchParams(search);
   // console.log("middleware urlSearchParams", urlSearchParams);

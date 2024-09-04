@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 const handler = async (req: NextRequest, res: NextResponse) => {
   try {
     const reqHeader = headers();
-    console.log("verify Request reqHeader", reqHeader);
+    // console.log("verify Request reqHeader", reqHeader);
     const authHeader = reqHeader.get("authorization");
     // console.log("verify Request authHeader", authHeader);
     if (!authHeader) {
@@ -42,7 +42,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
     // console.log("verify Request session", session);
     const onlineSession = session?.onlineSession;
     const offlineSession = session?.offlineSession;
-    // console.log("verify Request onlineSession", onlineSession);
+    console.log("verify Request onlineSession", onlineSession);
     // console.log("verify Request offlineSession", offlineSession);
     if (
       new Date(onlineSession?.expires!) > new Date() &&

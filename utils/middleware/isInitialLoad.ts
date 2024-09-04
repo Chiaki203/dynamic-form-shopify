@@ -3,6 +3,7 @@ import sessionHandler from "../sessionHandler.mjs";
 import shopify from "../shopify";
 import freshInstall from "../freshInstall";
 import prisma from "../prisma";
+import { registerWebhooks } from "../register-webhooks";
 
 /**
  * @async
@@ -54,6 +55,7 @@ const isInitialLoad = async (context: any) => {
         // isFreshInstall?.isActive === false -> Reinstall
         await freshInstall({ shop: onlineSession.shop });
       }
+      await registerWebhooks(onlineSession);
     } else {
       // The user has visited the page again.
       // We know this because we're not preserving any url params and idToken doesn't exist here

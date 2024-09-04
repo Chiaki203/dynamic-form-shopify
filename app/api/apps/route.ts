@@ -1,25 +1,73 @@
+import clientProvider from "@/utils/clientProvider.mjs";
+import { headers } from "next/headers";
 import { NextResponse, NextRequest } from "next/server";
 // import verifyRequest from "@/app/api/verification/verifyRequest";
 
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   console.log("GET /api/apps");
-  // const { auth } = await verifyRequest(request, response);
-  // if (!auth) {
-  //   return NextResponse.json({ error: "Unauthorized call" }, { status: 401 });
-  // }
-  return NextResponse.json(
-    { message: "This text is coming from `/api/apps route`" },
-    { status: 200 }
+  const headersData = headers();
+  const host = headersData.get("host");
+  const authorization = headersData.get("authorization");
+  const protocol =
+    (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost"))
+      ? "http"
+      : "https";
+  const apiBase = `${protocol}://${host}`;
+  const verifyRequestResponse = await fetch(
+    `${apiBase}/api/verification/verifyRequest`,
+    {
+      headers: {
+        authorization: authorization ?? "",
+      },
+    }
   );
+  const resData = await verifyRequestResponse.json();
+  try {
+    const { client } = await clientProvider.online.graphqlClient({
+      req,
+      res,
+      session: resData.onlineSession,
+    });
+    const response = await client.request(
+      `
+        query MyQuery {
+          product(id: "gid://shopify/Product/9435930099976") {
+            handle
+            title
+            description
+          }
+        }
+      `
+    );
+    console.dir(response, { depth: null });
+    return NextResponse.json({ data: response }, { status: 200 });
+  } catch (e: any) {
+    console.error(e.message);
+    return NextResponse.json({ error: e.message }, { status: 403 });
+  }
 }
 
-export async function POST(request: NextRequest, response: NextResponse) {
-  // const { auth } = await verifyRequest(request, response);
-  // if (!auth) {
-  //   return NextResponse.json({ error: "Unauthorized call" }, { status: 401 });
-  // }
-  return NextResponse.json(request.body, { status: 200 });
-}
+// export async function POST(request: NextRequest, response: NextResponse) {
+//   const body = await request.json();
+//   console.log("request body", body);
+//   const headersData = headers();
+//   const host = headersData.get("host");
+//   const authorization = headersData.get("authorization");
+//   const protocol =
+//     (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost"))
+//       ? "http"
+//       : "https";
+//   const apiBase = `${protocol}://${host}`;
+//   const verifyRequestResponse = await fetch(
+//     `${apiBase}/api/verification/verifyRequest`,
+//     {
+//       headers: {
+//         authorization: authorization ?? "",
+//       },
+//     }
+//   );
+//   return NextResponse.json({ text: body.content }, { status: 200 });
+// }
 
 // import withMiddleware from "@/utils/middleware/withMiddleware";
 // import prisma from "@/utils/prisma.js";

@@ -39,7 +39,7 @@
     "utils/clientProvider.ts",
     "utils/shopify.ts",
     "utils/webhooks/app_uninstalled.ts",
-    "utils/webhooks/orders_create.ts",
+    "utils/webhooks/products_update.ts",
     "utils/clientProvider.mjs"
   ],
   "exclude": ["node_modules"]

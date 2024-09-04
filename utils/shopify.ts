@@ -8,6 +8,7 @@ import {
 import "@shopify/shopify-api/adapters/node";
 import appUninstallHandler from "./webhooks/app_uninstalled";
 import ordersCreateHandler from "./webhooks/orders_create";
+import productsUpdateHandler from "./webhooks/products_update";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -63,11 +64,16 @@ shopify = {
         url: "/api/webhooks/app_uninstalled",
         callback: appUninstallHandler,
       },
-      // {
-      //   topics: ["orders/create"],
-      //   url: "/api/webhooks/orders_create",
-      //   callback: ordersCreateHandler,
-      // },
+      {
+        topics: ["products/update"],
+        url: "/api/webhooks/products_update",
+        callback: productsUpdateHandler,
+      },
+      {
+        topics: ["orders/create"],
+        url: "/api/webhooks/orders_create",
+        callback: ordersCreateHandler,
+      },
     ],
   },
 };

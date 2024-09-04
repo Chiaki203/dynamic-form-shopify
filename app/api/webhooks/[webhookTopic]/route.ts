@@ -3,6 +3,8 @@ import appUninstallHandler from "@/utils/webhooks/app_uninstalled";
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { buffer } from "@/utils/buffer";
+import productsUpdateHandler from "@/utils/webhooks/products_update";
+import ordersCreateHandler from "@/utils/webhooks/orders_create";
 
 // async function buffer(readable: any) {
 //   const chunks = [];
@@ -24,40 +26,59 @@ const handler = async (req: NextRequest, res: NextResponse) => {
   console.log("webhookData", webhookData);
   console.log("webhook reqHeaders", reqHeaders);
   console.log("webhook req", req);
-  // const topic = reqHeaders.get("x-shopify-topic");
-  // const shop = reqHeaders.get("x-shopify-shop-domain");
-  // const apiVersion = reqHeaders.get("x-shopify-api-version");
-  // const webhookId = reqHeaders.get("x-shopify-webhook-id");
-  const topic = "APP_UNINSTALLED";
+  const topic = reqHeaders.get("x-shopify-topic");
   const shop = reqHeaders.get("x-shopify-shop-domain");
-  const apiVersion = "";
-  const webhookId = "";
+  const apiVersion = reqHeaders.get("x-shopify-api-version");
+  const webhookId = reqHeaders.get("x-shopify-webhook-id");
+  // const topic = "APP_UNINSTALLED";
+  // const shop = reqHeaders.get("x-shopify-shop-domain");
+  // const apiVersion = "";
+  // const webhookId = "";
   console.log("webhook topic shop", shop);
 
-  // const buff = await buffer(req.body);
-  // const rawBody = buff.toString("utf8");
+  const buff = await buffer(req.body);
+  const rawBody = buff.toString("utf8");
   try {
-    // const validateWebhook = await shopify.webhooks.validate({
-    //   rawBody: rawBody,
-    //   rawRequest: req,
-    //   rawResponse: res,
-    // });
+    const validateWebhook = await shopify.webhooks.validate({
+      rawBody: rawBody,
+      rawRequest: req,
+      rawResponse: res,
+    });
 
-    const rawBody = "";
+    // const rawBody = "";
 
     //SWITCHCASE
-    // switch (validateWebhook.topic) {
-    switch (topic) {
+    switch (validateWebhook.topic) {
+      // switch (topic) {
       case "APP_UNINSTALLED":
         appUninstallHandler(
-          topic,
-          // validateWebhook.topic,
+          // topic,
+          validateWebhook.topic,
           shop as string,
           rawBody,
           webhookId as string,
           apiVersion as string
         );
         break;
+      case "PRODUCTS_UPDATE":
+        productsUpdateHandler(
+          // topic,
+          validateWebhook.topic,
+          shop as string,
+          rawBody,
+          webhookId as string,
+          apiVersion as string
+        );
+        break;
+      case "ORDERS_CREATE":
+        ordersCreateHandler(
+          // topic,
+          validateWebhook.topic,
+          shop as string,
+          rawBody,
+          webhookId as string,
+          apiVersion as string
+        );
       default:
         throw new Error(`Can't find a handler for ${topic}`);
     }

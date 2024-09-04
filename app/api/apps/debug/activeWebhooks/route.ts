@@ -30,7 +30,7 @@ const handler = async (req: NextRequest, res: NextResponse) => {
 
   const resData = await verifyRequestResponse.json();
   const resHeaders = verifyRequestResponse.headers;
-  console.log("activeWebhooks resHeaders", resHeaders);
+  // console.log("activeWebhooks resHeaders", resHeaders);
   console.log("activeWebhooks resData", resData);
   const userShop = resHeaders.get("user_shop");
   console.log("activeWebhooks userShop", userShop);
