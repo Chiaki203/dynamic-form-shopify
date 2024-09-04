@@ -7,7 +7,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -19,8 +19,28 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["@shopify/app-bridge-types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "ts-node": {
+    // "compilerOptions": {
+    //   "module": "CommonJS"
+    // },
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/api/apps/route.ts",
+    "utils/clientProvider.ts",
+    "utils/shopify.ts",
+    "utils/webhooks/app_uninstalled.ts",
+    "utils/webhooks/orders_create.ts",
+    "utils/clientProvider.mjs"
+  ],
   "exclude": ["node_modules"]
 }
