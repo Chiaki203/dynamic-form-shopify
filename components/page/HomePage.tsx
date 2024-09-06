@@ -36,10 +36,11 @@ const HomePage = () => {
                     <Button
                       variant="primary"
                       onClick={() => {
-                        router.push("/debug");
+                        router.push("/graphql-data");
                       }}
                     >
-                      Debug Cards
+                      {/* Debug Cards */}
+                      Graphql
                     </Button>
                   </InlineStack>
                 </BlockStack>

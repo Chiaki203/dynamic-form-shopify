@@ -9,7 +9,6 @@
 
 import ordersCreateHandler from "@/utils/webhooks/orders_create";
 import productsUpdateHandler from "@/utils/webhooks/products_update";
-import ordersCreateHandler from "@/utils/webhooks/products_update";
 import shopify from "@/utils/shopify";
 import appUninstallHandler from "@/utils/webhooks/app_uninstalled";
 
