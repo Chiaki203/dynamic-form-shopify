@@ -30,11 +30,19 @@ export async function GET(req: NextRequest, res: NextResponse) {
     });
     const response = await client.request(
       `
-        query MyQuery {
-          product(id: "gid://shopify/Product/9435930099976") {
-            handle
-            title
-            description
+        mutation UpdateProduct {
+          productUpdate(
+            input: {id: "gid://shopify/Product/9435930099976", title: "Graphql Snowboard new!"}
+          ) {
+            product {
+              description
+              id
+              title
+            }
+            userErrors {
+              field
+              message
+            }
           }
         }
       `
