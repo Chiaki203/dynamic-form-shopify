@@ -32,7 +32,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       `
         mutation UpdateProduct {
           productUpdate(
-            input: {id: "gid://shopify/Product/9435930099976", title: "Graphql Snowboard new!"}
+            input: {id: "gid://shopify/Product/9435930099976", title: "Graphql Snowboard new liquid!"}
           ) {
             product {
               description
