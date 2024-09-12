@@ -1,3 +1,4 @@
+import clientProvider from "@/utils/clientProvider.mjs";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,6 +20,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         method: "POST",
         headers: {
           authorization: authorization ?? "",
+          "ngrok-skip-browser-warning": "1",
         },
         body: JSON.stringify({
           signature: signature,
@@ -27,10 +29,26 @@ export async function GET(req: NextRequest, res: NextResponse) {
         }),
       }
     );
-    const { signatureVerified } = await verifyProxyResponse.json();
-    console.log("signatureVerified", signatureVerified);
+    const verifyProxyResponseData = await verifyProxyResponse.json();
+    console.log("verifyProxyResponseData", verifyProxyResponseData);
+    const verifiedUserShop = verifyProxyResponseData.user_shop;
+    const { client } = await clientProvider.offline.graphqlClient({
+      shop: verifiedUserShop ?? "",
+    });
+    console.log("client", client);
+    const response = await client.request(
+      `
+        query {
+          shop {
+            name
+          }
+        }
+      `
+    );
+    console.log("shop graphql response", response.data);
+
     return NextResponse.json(
-      { content: "This is coming from new route" },
+      { content: "This is coming from shopify proxy route" },
       { status: 200 }
     );
   } catch (error) {

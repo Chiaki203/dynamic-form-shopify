@@ -1,0 +1,48 @@
+# Avoid writing to toml directly. Use your .env file instead
+
+name = "Harshdeep-test"
+handle = "harshdeep-test"
+client_id = "9d895fe41c45ad2412271c4d0df32ef3"
+application_url = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app"
+embedded = true
+extension_directories = [ "./extensions/*" ]
+
+[auth]
+redirect_urls = [
+  "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/"
+]
+
+[access_scopes]
+scopes = "read_content, read_orders, read_products, write_products"
+use_legacy_install_flow = false
+
+[webhooks]
+api_version = "2024-07"
+
+  [[webhooks.subscriptions]]
+  topics = [ "app/uninstalled" ]
+  uri = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/webhooks/app_uninstalled"
+
+  [[webhooks.subscriptions]]
+  topics = [ "products/update" ]
+  uri = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/webhooks/products_update"
+
+  [[webhooks.subscriptions]]
+  topics = [ "orders/create" ]
+  uri = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/webhooks/orders_create"
+
+  [webhooks.privacy_compliance]
+  customer_data_request_url = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/gdpr/customers_data_request"
+  customer_deletion_url = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/gdpr/customers_redact"
+  shop_deletion_url = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/gdpr/shop_redact"
+
+[app_proxy]
+url = "https://2590-2a02-8109-ab86-8f00-b4bc-b4db-17e-92a8.ngrok-free.app/api/proxy_route"
+prefix = "apps"
+subpath = "subpath"
+
+[pos]
+embedded = false
+
+[build]
+include_config_on_deploy = true
