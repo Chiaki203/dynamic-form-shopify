@@ -11,7 +11,8 @@ const handler = async (req: NextRequest, res: NextResponse) => {
     (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost"))
       ? "http"
       : "https";
-  const apiBase = `${protocol}://${host}`;
+  // const apiBase = `${protocol}://${host}`;
+  const apiBase = process.env.NEXT_PUBLIC_SHOPIFY_APP_URL;
   const verifyRequestResponse = await fetch(
     `${apiBase}/api/verification/verifyRequest`,
     {
