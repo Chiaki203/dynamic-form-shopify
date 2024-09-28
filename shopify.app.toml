@@ -1,17 +1,19 @@
 # Avoid writing to toml directly. Use your .env file instead
 
-name = "Harshdeep-test"
-handle = "harshdeep-test"
-client_id = "9d895fe41c45ad2412271c4d0df32ef3"
-application_url = "https://bd5e-104-151-58-243.ngrok-free.app"
+name = "Dynamic-Forms"
+handle = "dynamic-forms-5"
+client_id = "4a4769878f5efd1936ffc08740861b2a"
+application_url = "https://tom-descriptions-concerts-teacher.trycloudflare.com"
 embedded = true
 extension_directories = [ "extension/extensions/*" ]
 
 [auth]
-redirect_urls = [ "https://bd5e-104-151-58-243.ngrok-free.app/api/" ]
+redirect_urls = [
+  "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/"
+]
 
 [access_scopes]
-scopes = "read_content, read_orders, read_products, write_products"
+scopes = "read_content, read_orders, read_products, write_products, write_customers"
 use_legacy_install_flow = false
 
 [webhooks]
@@ -19,23 +21,23 @@ api_version = "2024-07"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
-  uri = "https://bd5e-104-151-58-243.ngrok-free.app/api/webhooks/app_uninstalled"
+  uri = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/webhooks/app_uninstalled"
 
   [[webhooks.subscriptions]]
   topics = [ "products/update" ]
-  uri = "https://bd5e-104-151-58-243.ngrok-free.app/api/webhooks/products_update"
+  uri = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/webhooks/products_update"
 
   [[webhooks.subscriptions]]
   topics = [ "orders/create" ]
-  uri = "https://bd5e-104-151-58-243.ngrok-free.app/api/webhooks/orders_create"
+  uri = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/webhooks/orders_create"
 
   [webhooks.privacy_compliance]
-  customer_data_request_url = "https://bd5e-104-151-58-243.ngrok-free.app/api/gdpr/customers_data_request"
-  customer_deletion_url = "https://bd5e-104-151-58-243.ngrok-free.app/api/gdpr/customers_redact"
-  shop_deletion_url = "https://bd5e-104-151-58-243.ngrok-free.app/api/gdpr/shop_redact"
+  customer_data_request_url = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/gdpr/customers_data_request"
+  customer_deletion_url = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/gdpr/customers_redact"
+  shop_deletion_url = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/gdpr/shop_redact"
 
 [app_proxy]
-url = "https://bd5e-104-151-58-243.ngrok-free.app/api/proxy_route"
+url = "https://tom-descriptions-concerts-teacher.trycloudflare.com/api/proxy_route"
 prefix = "apps"
 subpath = "subpath"
 

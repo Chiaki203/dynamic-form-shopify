@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    console.log("proxy shop req", req);
+    // console.log("proxy shop req", req);
     const headersData = headers();
-    console.log("proxy shop headersData", headersData);
+    // console.log("proxy shop headersData", headersData);
     const host = headersData.get("host");
     const authorization = headersData.get("authorization");
     const protocol =
@@ -55,7 +55,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
     console.log("api base ", apiBase);
 
     return NextResponse.json(
-      { content: "This is coming from shopify proxy route" },
+      {
+        content: "This is coming from shopify proxy route",
+        shop: response.data.shop.name,
+      },
       { status: 200 }
     );
   } catch (error: any) {

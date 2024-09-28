@@ -1,0 +1,31 @@
+[
+  { "id": "name", "label": "Name", "value": "", "type": "text", "options": [] },
+  {
+    "id": "email",
+    "label": "Email",
+    "value": "",
+    "type": "text",
+    "options": []
+  },
+  {
+    "id": "organization",
+    "label": "Organization",
+    "type": "text",
+    "value": "",
+    "options": []
+  },
+  {
+    "id": "what developer are you?",
+    "label": "What developer are you?",
+    "type": "dropdown",
+    "value": "",
+    "options": ["fullstack", "Frontend", "Backend"]
+  },
+  {
+    "id": "website",
+    "label": "Website",
+    "type": "url",
+    "value": "",
+    "options": []
+  }
+]

@@ -12,7 +12,7 @@
     "update": "ncu -u",
     "-----> Tunnel <-----": "",
     "ngrok:auth": "ngrok authtoken <auth-token-goes-here>",
-    "ngrok": "ngrok http http://localhost:8080",
+    "ngrok": "ngrok http http://localhost:3000",
     "cloudflare": "cloudflared tunnel --url localhost:3000",
     "-----> Shopify <-----": "",
     "g:install": "npm i -g @shopify/app@latest @shopify/cli@latest",
@@ -20,9 +20,9 @@
     "update:config": "node --loader ts-node/esm _developer/tomlWriter.ts && cd .. && shopify app deploy",
     "update:url": "node _developer/updateDashboard.js",
     "-----> Database <-----": "",
-    "pg:create": "mkdir database; pg_ctl -D database init",
-    "pg:start": "pg_ctl -D database start",
-    "pg:stop": "pg_ctl -D database stop",
+    "pg:create": "mkdir database; pg_ctl -D database2 init",
+    "pg:start": "pg_ctl -D database2 start",
+    "pg:stop": "pg_ctl -D database2 stop",
     "-----> Prisma <-----": "",
     "prisma": "npx prisma",
     "prisma:push": "npx prisma db push",
@@ -39,7 +39,8 @@
     "next": "14.2.6",
     "next-api-middleware": "^3.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-icons": "^5.3.0"
   },
   "devDependencies": {
     "@iarna/toml": "^2.2.5",
