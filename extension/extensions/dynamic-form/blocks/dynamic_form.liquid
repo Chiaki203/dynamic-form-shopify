@@ -1,0 +1,109 @@
+{% if customer or request.design_mode == true %}
+  <form id="application-form" class="wrapper section-padding">
+    <!--
+      The form fields will be populated here by JavaScripture. JavaScripture is the same as JavaScript but because I wrote it, it's a piece of art. Here's a poem for you:
+
+      In a world where most code's mere infrastructure,
+      I write JavaScript so good, they dubbed it JavaScripture.
+      They chase bugs and semicolons, losing sight of the bigger picture,
+      Even their bugs fumble infront of my JavaScripture.
+    -->
+  </form>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('dynamic_form liquid DOMContentLoaded');
+      try {
+        const response = await fetch('/apps/subpath/application/fields', {
+          headers: {
+            'ngrok-skip-browser-warning': '1',
+          },
+        });
+        const { fields } = await response.json();
+      } catch (error) {
+        console.log('dynamic_form liquid error', error);
+      }
+      console.log('dynamic_form liquid fields', fields);
+      const form = document.querySelector('#application-form');
+      fields.forEach((field) => {
+        const label = document.createElement('label');
+        label.textContent = field.label;
+        let input;
+        if (field.type === 'dropdown') {
+          input = document.createElement('select');
+          field.options.forEach((option) => {
+            const optionElement = document.createElement('option');
+            optionElement.value = option;
+            optionElement.textContent = option;
+            input.append(optionElement);
+          });
+        } else {
+          input = document.createElement('input');
+          input.type = field.type;
+        }
+        input.name = field.id;
+        form.append(label, input);
+      });
+      const submitButton = document.createElement('button');
+      submitButton.type = 'submit';
+      submitButton.id = 'submit-button';
+      submitButton.classList = 'standard__cta hero__btn btn--neutral btn--long aos-init aos-animate';
+      submitButton.textContent = 'Submit';
+      form.append(submitButton);
+      var nameInput = document.querySelector('input[name="name"]');
+      var emailInput = document.querySelector('input[name="email"]');
+      nameInput.value = '{{ customer.name }}' || '';
+      emailInput.value = '{{ customer.email }}' || '';
+      nameInput.disabled = nameInput === '' ? false : true;
+      emailInput.disabled = emailInput === '' ? false : true;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitButton = document.getElementById('submit-button');
+        submitButton.textContent = 'Loadeing...';
+        const formData = new FormData(form);
+        console.log('dynamic_form liquid formData', formData);
+        const data = [...formData.entries()].reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
+        console.log('dynamic_form liquid reduced data', data);
+        data['name'] = '{{ customer.name }}';
+        data['email'] = '{{ customer.email }}';
+        data['customer_id'] = '{{ customer.id }}';
+        const response = await fetch('/apps/subpath/application/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        console.log('dynamic_form liquid response', response);
+        if (response.ok) {
+          alert('Applicatioon saved!');
+        } else {
+          alert('failed to save application. Please try again.');
+        }
+        submitButton.textContent = 'Submit';
+      });
+    });
+  </script>
+{% else %}
+  <h2>You must be logged in to use this form.</h2>
+  <br>
+  <a href="/account/login">Click here to login</a>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Dynamic Form",
+  "target": "section"
+}
+{% endschema %}
+
+{% comment %}
+  {% assign avg_rating = block.settings.product.metafields.demo.avg_rating.value | round %}
+  <span style="color:{{ block.settings.colour }}">
+    {% render 'stars', rating: avg_rating %}
+  </span>
+  {% if avg_rating >= 4 %}
+    <br>
+    <img src="{{ "thumbs-up.png" | asset_img_url: '15x' }}" height="15" width="15" loading="lazy">
+    {{ 'ratings.home.recommendationText' | t }}
+  {% endif %}
+{% endcomment %}
