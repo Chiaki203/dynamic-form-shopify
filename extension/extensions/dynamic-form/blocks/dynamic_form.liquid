@@ -10,18 +10,21 @@
     -->
   </form>
   <script>
+    {% comment %} const createForm = async() => { {% endcomment %}
+
     document.addEventListener('DOMContentLoaded', async () => {
       console.log('dynamic_form liquid DOMContentLoaded');
-      try {
-        const response = await fetch('/apps/subpath/application/fields', {
-          headers: {
-            'ngrok-skip-browser-warning': '1',
-          },
-        });
-        const { fields } = await response.json();
-      } catch (error) {
-        console.log('dynamic_form liquid error', error);
-      }
+      const response = await fetch('/apps/dynamic-forms/application/fields', {
+        method: 'GET',
+        headers: {
+          'ngrok-skip-browser-warning': '1',
+          'Content-Type': 'application/json',
+          {% comment %} "Content-Security-Policy": "frame-ancestors {{ shop.secure_url }}", {% endcomment %}
+        },
+      });
+      console.log('dynamic_form liquid response', response);
+      const data = await response.json();
+      const { fields } = data;
       console.log('dynamic_form liquid fields', fields);
       const form = document.querySelector('#application-form');
       fields.forEach((field) => {
@@ -58,7 +61,7 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const submitButton = document.getElementById('submit-button');
-        submitButton.textContent = 'Loadeing...';
+        submitButton.textContent = 'Loading...';
         const formData = new FormData(form);
         console.log('dynamic_form liquid formData', formData);
         const data = [...formData.entries()].reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {});
@@ -66,10 +69,11 @@
         data['name'] = '{{ customer.name }}';
         data['email'] = '{{ customer.email }}';
         data['customer_id'] = '{{ customer.id }}';
-        const response = await fetch('/apps/subpath/application/save', {
+        const response = await fetch('/apps/dynamic-forms/application/save', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'ngrok-skip-browser-warning': '1',
           },
           body: JSON.stringify(data),
         });
@@ -82,6 +86,8 @@
         submitButton.textContent = 'Submit';
       });
     });
+    {% comment %} }
+    createForm(); {% endcomment %}
   </script>
 {% else %}
   <h2>You must be logged in to use this form.</h2>

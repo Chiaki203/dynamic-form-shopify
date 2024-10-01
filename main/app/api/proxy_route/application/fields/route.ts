@@ -4,17 +4,17 @@ import prisma from "@/utils/prisma";
 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    console.log("proxy shop req", req);
+    // console.log("proxy shop req", req);
     const headersData = headers();
-    console.log("proxy fields headersData", headersData);
+    // console.log("proxy fields headersData", headersData);
     const host = headersData.get("host");
     const authorization = headersData.get("authorization");
     const protocol =
       (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost"))
         ? "http"
         : "https";
-    // const apiBase = `${protocol}://${host}`;
-    const apiBase = process.env.NEXT_PUBLIC_SHOPIFY_APP_URL;
+    const apiBase = `${protocol}://${host}`;
+    // const apiBase = process.env.NEXT_PUBLIC_SHOPIFY_APP_URL;
 
     const signature = req.nextUrl.searchParams.get("signature");
     const user_shop = req.nextUrl.searchParams.get("shop");

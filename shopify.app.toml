@@ -3,12 +3,14 @@
 name = "Dynamic-Forms"
 handle = "dynamic-forms-5"
 client_id = "4a4769878f5efd1936ffc08740861b2a"
-application_url = "https://114a-213-152-187-220.ngrok-free.app"
+application_url = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app"
 embedded = true
 extension_directories = [ "extension/extensions/*" ]
 
 [auth]
-redirect_urls = [ "https://114a-213-152-187-220.ngrok-free.app/api/" ]
+redirect_urls = [
+  "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/"
+]
 
 [access_scopes]
 scopes = "read_content, read_orders, read_products, write_products, write_customers"
@@ -19,25 +21,25 @@ api_version = "2024-07"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
-  uri = "https://114a-213-152-187-220.ngrok-free.app/api/webhooks/app_uninstalled"
+  uri = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/webhooks/app_uninstalled"
 
   [[webhooks.subscriptions]]
   topics = [ "products/update" ]
-  uri = "https://114a-213-152-187-220.ngrok-free.app/api/webhooks/products_update"
+  uri = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/webhooks/products_update"
 
   [[webhooks.subscriptions]]
   topics = [ "orders/create" ]
-  uri = "https://114a-213-152-187-220.ngrok-free.app/api/webhooks/orders_create"
+  uri = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/webhooks/orders_create"
 
   [webhooks.privacy_compliance]
-  customer_data_request_url = "https://114a-213-152-187-220.ngrok-free.app/api/gdpr/customers_data_request"
-  customer_deletion_url = "https://114a-213-152-187-220.ngrok-free.app/api/gdpr/customers_redact"
-  shop_deletion_url = "https://114a-213-152-187-220.ngrok-free.app/api/gdpr/shop_redact"
+  customer_data_request_url = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/gdpr/customers_data_request"
+  customer_deletion_url = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/gdpr/customers_redact"
+  shop_deletion_url = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/gdpr/shop_redact"
 
 [app_proxy]
-url = "https://114a-213-152-187-220.ngrok-free.app/api/proxy_route"
+url = "https://1d35-2a02-8109-ab86-8f00-7830-8518-bdf5-8f82.ngrok-free.app/api/proxy_route"
 prefix = "apps"
-subpath = "subpath"
+subpath = "dynamic-forms"
 
 [pos]
 embedded = false

@@ -4,15 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "-----> Shopify <-----": "",
-    "g:install": "npm i -g @shopify/app@latest @shopify/cli@latest",
-    "shopify": "shopify",
-    "dev": "shopify app dev",
-    "build": "shopify app build",
-    "generate": "shopify app generate extension",
-    "deploy": "shopify app deploy",
-    "update:config": "node --loader ts-node/esm _developer/tomlWriter.ts && shopify app deploy; npm run pretty",
-    "update:url": "node _developer/updateDashboard.js"
+    "deploy": "shopify app deploy"
   },
   "keywords": [],
   "author": "Chiaki Sakai <clear.island23@gmail.com> (https://github.com/Chiaki203)",

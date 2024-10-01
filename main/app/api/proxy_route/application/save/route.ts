@@ -13,8 +13,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
       (headersData.get("x-forwarded-proto") ?? host?.startsWith("localhost"))
         ? "http"
         : "https";
-    // const apiBase = `${protocol}://${host}`;
-    const apiBase = process.env.NEXT_PUBLIC_SHOPIFY_APP_URL;
+    const apiBase = `${protocol}://${host}`;
+    // const apiBase = process.env.NEXT_PUBLIC_SHOPIFY_APP_URL;
 
     const signature = req.nextUrl.searchParams.get("signature");
     const user_shop = req.nextUrl.searchParams.get("shop");
