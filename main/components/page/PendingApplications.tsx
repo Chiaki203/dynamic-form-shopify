@@ -1,9 +1,20 @@
 "use client";
 
 import { applications } from "@prisma/client";
-import { Card, EmptyState, Layout, Page } from "@shopify/polaris";
+import {
+  Button,
+  Card,
+  EmptyState,
+  IndexTable,
+  Layout,
+  LegacyCard,
+  Modal,
+  Page,
+  Text,
+  useIndexResourceState,
+} from "@shopify/polaris";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import NoApplication from "./NoApplication";
 
 const PendingPage = ({
@@ -18,6 +29,78 @@ const PendingPage = ({
   const [active, setActive] = useState(false);
   const [currentApplication, setCurrentApplication] =
     useState<applications | null>(null);
+  const resourceName = {
+    singular: "application",
+    plural: "applications",
+  };
+  const { selectedResources, handleSelectionChange } =
+    useIndexResourceState(pending);
+  console.log("pendingApplications", pending);
+  console.log("pendingApplications selectedResources", selectedResources);
+  const handleModalOpen = (application: applications) => {
+    setCurrentApplication(application);
+    setActive(true);
+  };
+  console.log("currentApplication", currentApplication);
+  const handleModalClose = useCallback(() => {
+    setActive(false);
+    setCurrentApplication(null);
+  }, []);
+  const rowMarkup = pending.map((values, index) => (
+    // <>
+    <IndexTable.Row
+      id={values.id}
+      key={values.id}
+      selected={selectedResources.includes(values.id)}
+      position={index}
+    >
+      <IndexTable.Cell>{values.name}</IndexTable.Cell>
+      <IndexTable.Cell>{values.email}</IndexTable.Cell>
+      <IndexTable.Cell>
+        <Button onClick={() => handleModalOpen(values)} variant="primary">
+          View
+        </Button>
+      </IndexTable.Cell>
+    </IndexTable.Row>
+    // </>
+  ));
+
+  const modalMarkup = currentApplication && (
+    <Modal
+      open={active}
+      onClose={handleModalClose}
+      title={`${currentApplication.name}'s Application`}
+      primaryAction={{
+        content: "Approve",
+        loading: isLoading,
+        onAction: async () => {},
+      }}
+      secondaryActions={[
+        {
+          content: "Reject",
+          loading: rejectLoading,
+          onAction: async () => {},
+        },
+      ]}
+    >
+      <Modal.Section>
+        <Text as="h3" variant="headingMd">
+          <Text as="p" variant="headingMd" fontWeight="bold">
+            Name: {currentApplication.name}
+          </Text>
+          <Text as="p" variant="bodyMd" fontWeight="regular">
+            Email: {currentApplication.email}
+          </Text>
+          {currentApplication.fields &&
+            Object.entries(currentApplication.fields).map(([key, value]) => (
+              <Text key={key} as="p" variant="bodyMd">
+                {`${key}: ${value}`}
+              </Text>
+            ))}
+        </Text>
+      </Modal.Section>
+    </Modal>
+  );
 
   return (
     <>
@@ -29,7 +112,31 @@ const PendingPage = ({
         }}
       >
         <Layout>
-          <NoApplication />
+          {pending.length !== 0 ? (
+            <>
+              <Layout.Section>
+                <LegacyCard>
+                  <IndexTable
+                    resourceName={resourceName}
+                    itemCount={pending.length}
+                    selectedItemsCount={selectedResources.length}
+                    onSelectionChange={handleSelectionChange}
+                    selectable={false}
+                    headings={[
+                      { title: "Name" },
+                      { title: "Email" },
+                      { title: "" },
+                    ]}
+                  >
+                    {rowMarkup}
+                  </IndexTable>
+                  {modalMarkup}
+                </LegacyCard>
+              </Layout.Section>
+            </>
+          ) : (
+            <NoApplication />
+          )}
         </Layout>
       </Page>
     </>

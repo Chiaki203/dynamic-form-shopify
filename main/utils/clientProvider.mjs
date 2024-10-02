@@ -29,7 +29,9 @@ const offline = {
    * @param {string} params.shop - The shop's domain
    */
   graphqlClient: async ({ shop }) => {
+    console.log("offline graphqlClient shop", shop);
     const session = await fetchOfflineSession(shop);
+    console.log("offline graphqlClient session", session);
     const client = new shopify.clients.Graphql({ session });
     return { client, shop, session };
   },

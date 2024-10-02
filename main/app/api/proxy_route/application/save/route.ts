@@ -40,6 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const verifiedUserShop = verifyProxyResponseData.user_shop;
     const applicationData = await req.json();
     console.log("proxy save applicationData", applicationData);
+    console.log("proxy save verifiedUserShop", verifiedUserShop);
     const name = applicationData.name;
     const email = applicationData.email;
     const customer_id = applicationData.customer_id;
