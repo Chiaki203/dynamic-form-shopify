@@ -33,10 +33,18 @@ const PendingPage = ({
     singular: "application",
     plural: "applications",
   };
-  const { selectedResources, handleSelectionChange } =
-    useIndexResourceState(pending);
+  const { selectedResources, handleSelectionChange } = useIndexResourceState(
+    pending || []
+  );
   console.log("pendingApplications", pending);
   console.log("pendingApplications selectedResources", selectedResources);
+  const updateApplications = async () => {
+    const response = await (
+      await fetch("/api/apps/application/fetch/pending")
+    ).json();
+    console.log("updateApplications response", response);
+    setPending(response);
+  };
   const handleModalOpen = (application: applications) => {
     setCurrentApplication(application);
     setActive(true);
@@ -46,24 +54,26 @@ const PendingPage = ({
     setActive(false);
     setCurrentApplication(null);
   }, []);
-  const rowMarkup = pending.map((values, index) => (
-    // <>
-    <IndexTable.Row
-      id={values.id}
-      key={values.id}
-      selected={selectedResources.includes(values.id)}
-      position={index}
-    >
-      <IndexTable.Cell>{values.name}</IndexTable.Cell>
-      <IndexTable.Cell>{values.email}</IndexTable.Cell>
-      <IndexTable.Cell>
-        <Button onClick={() => handleModalOpen(values)} variant="primary">
-          View
-        </Button>
-      </IndexTable.Cell>
-    </IndexTable.Row>
-    // </>
-  ));
+  const rowMarkup =
+    pending.length !== 0 &&
+    pending.map((values, index) => (
+      // <>
+      <IndexTable.Row
+        id={values.id}
+        key={values.id}
+        selected={selectedResources.includes(values.id)}
+        position={index}
+      >
+        <IndexTable.Cell>{values.name}</IndexTable.Cell>
+        <IndexTable.Cell>{values.email}</IndexTable.Cell>
+        <IndexTable.Cell>
+          <Button onClick={() => handleModalOpen(values)} variant="primary">
+            View
+          </Button>
+        </IndexTable.Cell>
+      </IndexTable.Row>
+      // </>
+    ));
 
   const modalMarkup = currentApplication && (
     <Modal
@@ -73,13 +83,55 @@ const PendingPage = ({
       primaryAction={{
         content: "Approve",
         loading: isLoading,
-        onAction: async () => {},
+        onAction: async () => {
+          setIsLoading(true);
+          const response = await fetch(
+            "/api/apps/application/actions/approve",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                ...currentApplication,
+              }),
+            }
+          );
+          setIsLoading(false);
+          if (response.ok) {
+            handleModalClose();
+            updateApplications();
+          } else {
+            alert("There was an error approving this user");
+          }
+        },
       }}
       secondaryActions={[
         {
           content: "Reject",
           loading: rejectLoading,
-          onAction: async () => {},
+          onAction: async () => {
+            setRejectLoading(true);
+            const response = await fetch(
+              "/api/apps/application/actions/reject",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  ...currentApplication,
+                }),
+              }
+            );
+            setRejectLoading(false);
+            if (response.ok) {
+              handleModalClose();
+              updateApplications();
+            } else {
+              alert("There was an error rejecting this user");
+            }
+          },
         },
       ]}
     >
