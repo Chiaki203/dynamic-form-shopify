@@ -54,6 +54,7 @@ const EditApplication = ({ formFields }: { formFields: any }) => {
     });
     const data = await response.json();
     setIsLoading(false);
+    router.push("/");
     if (!data.error) {
       console.log(data);
       alert("Form saved successfully!");

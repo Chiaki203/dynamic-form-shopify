@@ -3,12 +3,14 @@
 name = "Dynamic-Forms"
 handle = "dynamic-forms-5"
 client_id = "4a4769878f5efd1936ffc08740861b2a"
-application_url = "https://weblog-onto-hang-mission.trycloudflare.com"
+application_url = "https://formula-casting-senator-clinics.trycloudflare.com"
 embedded = true
 extension_directories = [ "extension/extensions/*" ]
 
 [auth]
-redirect_urls = [ "https://weblog-onto-hang-mission.trycloudflare.com/api/" ]
+redirect_urls = [
+  "https://formula-casting-senator-clinics.trycloudflare.com/api/"
+]
 
 [access_scopes]
 scopes = "read_content, read_orders, read_products, write_products, write_customers"
@@ -19,23 +21,23 @@ api_version = "2024-07"
 
   [[webhooks.subscriptions]]
   topics = [ "app/uninstalled" ]
-  uri = "https://weblog-onto-hang-mission.trycloudflare.com/api/webhooks/app_uninstalled"
+  uri = "https://formula-casting-senator-clinics.trycloudflare.com/api/webhooks/app_uninstalled"
 
   [[webhooks.subscriptions]]
   topics = [ "products/update" ]
-  uri = "https://weblog-onto-hang-mission.trycloudflare.com/api/webhooks/products_update"
+  uri = "https://formula-casting-senator-clinics.trycloudflare.com/api/webhooks/products_update"
 
   [[webhooks.subscriptions]]
   topics = [ "orders/create" ]
-  uri = "https://weblog-onto-hang-mission.trycloudflare.com/api/webhooks/orders_create"
+  uri = "https://formula-casting-senator-clinics.trycloudflare.com/api/webhooks/orders_create"
 
   [webhooks.privacy_compliance]
-  customer_data_request_url = "https://weblog-onto-hang-mission.trycloudflare.com/api/gdpr/customers_data_request"
-  customer_deletion_url = "https://weblog-onto-hang-mission.trycloudflare.com/api/gdpr/customers_redact"
-  shop_deletion_url = "https://weblog-onto-hang-mission.trycloudflare.com/api/gdpr/shop_redact"
+  customer_data_request_url = "https://formula-casting-senator-clinics.trycloudflare.com/api/gdpr/customers_data_request"
+  customer_deletion_url = "https://formula-casting-senator-clinics.trycloudflare.com/api/gdpr/customers_redact"
+  shop_deletion_url = "https://formula-casting-senator-clinics.trycloudflare.com/api/gdpr/shop_redact"
 
 [app_proxy]
-url = "https://weblog-onto-hang-mission.trycloudflare.com/api/proxy_route"
+url = "https://formula-casting-senator-clinics.trycloudflare.com/api/proxy_route"
 prefix = "apps"
 subpath = "dynamic-forms"
 
